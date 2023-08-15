@@ -158,6 +158,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QTextEdit
 from attacker import AttackerWindow
 from defender import DefenderWindow
 from cybercity import Cybercity
+from next import NextRound
 
 
 class MainWindow(QMainWindow):
@@ -193,20 +194,9 @@ class MainWindow(QMainWindow):
             if district not in self.hacking_actions:
                 self.hacking_actions[district] = {"effect": 0, "probability": 1.0}
 
-        if title == "attacker":
-            attack_window = AttackerWindow(self)
-            if self.active == True:
-                self.setCentralWidget(attack_window)
-            else:
-                pass
-        else:
-            defend_window = DefenderWindow(self)
-            if self.active:
-                self.setCentralWidget(defend_window)
-            else:
-                pass
-
-    def next_round(self):
+        # adding the condition for end game here     
+        self.round = NextRound()
+        self.end = self.round.get_num_rounds()
         if self.round_counter >= 10:
             output_text = self.centralWidget().findChild(QTextEdit, 'output_text')
             if output_text is None:
@@ -217,20 +207,44 @@ class MainWindow(QMainWindow):
 
             output_text.append("\n--- End of Game ---")
             return
-        self.round_counter += 1
+        if title == "attacker":
+            attack_window = AttackerWindow(self)
 
-        if self.round_counter % 2 == 0 and self.title == "attacker":
-            # Switch to attacker window
-            self.attacker_window = AttackerWindow(self)
-            self.attacker_window.setWindowTitle("Attacker's Turn")
-            self.setCentralWidget(self.attacker_window)
-        elif self.round_counter % 2 != 0 and self.title == "defender":
-            # Switch to defender window
-            self.defender_window = DefenderWindow(self)
-            self.defender_window.setWindowTitle("Defender's Turn")
-            self.setCentralWidget(self.defender_window)
+            attack_window.create_widgets()
+            self.setCentralWidget(attack_window)
+
+                # self.setCentralWidget(attack_window)
+        else:
+            defend_window = DefenderWindow(self)
+            defend_window.create_widgets()
+            self.setCentralWidget(defend_window)
 
 
+    def round_switch(self):
+        num = self.round.next_round()
+        if num >= 10:
+            output_text = self.centralWidget().findChild(QTextEdit, 'output_text')
+            if output_text is None:
+                # Create QTextEdit widget if not found
+                output_text = QTextEdit()
+                output_text.setObjectName('output_text')
+                self.centralWidget().layout.addWidget(output_text)
+
+            output_text.append("\n--- End of Game ---")
+            return
+        print(num)
+        if num % 2 == 0 and self.title == "attacker":
+            attack_window = AttackerWindow(self)
+            attack_window.create_widgets()
+            self.setCentralWidget(attack_window)
+        elif num % 2 ==0 and self.title != "attacker":
+            pass
+        elif num%2 != 0 and self.title == "defender":
+            defend_window = DefenderWindow(self)
+            defend_window.create_widgets()
+            self.setCentralWidget(defend_window)
+        else:
+            pass
         if hasattr(self, 'defender_window'):
             self.defender_window.defender_budget_label.setText(str(self.budget["defender"]))
         if hasattr(self, 'attacker_window'):
@@ -248,6 +262,66 @@ class MainWindow(QMainWindow):
         else:
             output_text.append("\nAfter turn:")
             output_text.append(self.cybercity.status())
+
+        # self.end = self.round.get_num_rounds()
+
+
+
+
+
+        
+
+    def switch_turns(self):
+        self.active = not self.active
+        if self.active:
+            self.current_view = DefenderWindow(self)
+        else:
+            self.current_view = AttackerWindow(self)
+        self.setCentralWidget(self.current_view)
+    # def next_round(self):
+    #     if self.round_counter >= 10:
+    #         output_text = self.centralWidget().findChild(QTextEdit, 'output_text')
+    #         if output_text is None:
+    #             # Create QTextEdit widget if not found
+    #             output_text = QTextEdit()
+    #             output_text.setObjectName('output_text')
+    #             self.centralWidget().layout.addWidget(output_text)
+
+    #         output_text.append("\n--- End of Game ---")
+    #         return
+    #     self.round_counter += 1
+
+        
+
+    #     if self.round_counter % 2 == 0 and self.title == "attacker":
+    #         # Switch to attacker window
+    #         self.attacker_window = AttackerWindow(self)
+    #         self.attacker_window.setWindowTitle("Attacker's Turn")
+    #         self.setCentralWidget(self.attacker_window)
+    #     elif self.round_counter % 2 != 0 and self.title == "defender":
+    #         # Switch to defender window
+    #         self.defender_window = DefenderWindow(self)
+    #         self.defender_window.setWindowTitle("Defender's Turn")
+    #         self.setCentralWidget(self.defender_window)
+
+
+    #     if hasattr(self, 'defender_window'):
+    #         self.defender_window.defender_budget_label.setText(str(self.budget["defender"]))
+    #     if hasattr(self, 'attacker_window'):
+    #         self.attacker_window.attacker_budget_label.setText(str(self.budget["attacker"]))
+
+    #     output_text = self.centralWidget().findChild(QTextEdit, 'output_text')
+    #     if output_text is None:
+    #         # Create QTextEdit widget if not found
+    #         output_text = QTextEdit()
+    #         output_text.setObjectName('output_text')
+    #         self.centralWidget().layout.addWidget(output_text)
+
+    #     if output_text.toPlainText() == "--- Game Started ---":
+    #         output_text.append(f"\n--- Round {self.round_counter} ---")
+    #     else:
+    #         output_text.append("\nAfter turn:")
+    #         output_text.append(self.cybercity.status())
 
 
     # def paintEvent(self, event):

@@ -12,7 +12,7 @@ class DefenderWindow(QWidget):
         self.budget = parent.budget
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
-        self.create_widgets()
+        # self.create_widgets()
 
     def create_widgets(self):
         # Create budget labels
@@ -94,4 +94,4 @@ class DefenderWindow(QWidget):
 
         self.defender_budget_label.setText(str(self.budget["defender"]))
         # self.parent().active = False
-        self.parent().next_round()
+        self.parent().round_switch()

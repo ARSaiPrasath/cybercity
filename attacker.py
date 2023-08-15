@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QSpinBox, QComboBox, QTextEdit, QFormLayout, QMessageBox
 from cybercity import Cybercity
+from PyQt5.QtGui import QPixmap
 
 
 class AttackerWindow(QWidget):
@@ -11,7 +12,10 @@ class AttackerWindow(QWidget):
         self.budget = parent.budget
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
-        self.create_widgets()
+        self.image_label = QLabel(self)
+        self.layout.addWidget(self.image_label)
+        # self.create_widgets()
+
 
     def create_widgets(self):
         # Create budget labels
@@ -61,6 +65,10 @@ class AttackerWindow(QWidget):
             action_combobox.addItems(["Phishing", "Virus", "Malware", "Skip Turn"])
             self.form_layout.addRow(district_label, district_combobox)
             self.form_layout.addRow(action_label, action_combobox)
+    
+    def update_image(self, image_path):
+        pixmap = QPixmap(image_path)
+        self.image_label.setPixmap(pixmap)
 
     def submit_attacker_turn(self):
         n_locations = self.location_spinbox.value()
@@ -92,4 +100,4 @@ class AttackerWindow(QWidget):
                     QMessageBox.warning(self, "Hack Failed", f"Hack {action} is not successful in District {district}.")
 
         self.attacker_budget_label.setText(str(self.budget["attacker"]))
-        self.parent().next_round()
+        self.parent().round_switch()
