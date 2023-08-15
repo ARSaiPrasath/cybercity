@@ -2,9 +2,11 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QSpinBox, QComboBox, QTextEdit, QFormLayout, QMessageBox
 from cybercity import Cybercity
 
+
 class AttackerWindow(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
+        # self.main_window = MainWindow()
         self.cybercity = parent.cybercity
         self.budget = parent.budget
         self.layout = QVBoxLayout()

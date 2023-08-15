@@ -2,9 +2,12 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QSpinBox, QComboBox, QTextEdit, QFormLayout, QMessageBox
 from cybercity import Cybercity
 
+
 class DefenderWindow(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
+        # self.main_window = parent()
+        # print("defend")
         self.cybercity = parent.cybercity
         self.budget = parent.budget
         self.layout = QVBoxLayout()
@@ -90,4 +93,5 @@ class DefenderWindow(QWidget):
                     QMessageBox.warning(self, "Defense Failed", f"Defense {action} is not successful in District {district}.")
 
         self.defender_budget_label.setText(str(self.budget["defender"]))
+        # self.parent().active = False
         self.parent().next_round()
