@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cybercity Game - Defender</title>
+</head>
+<body>
+    <h1>Cybercity Game - Defender</h1>
+
+    {% if game_finished %}
+        <h2>Game Finished</h2>
+    {% else %}
+        <h2>Round: {{ round_number }}</h2>
+
+        <h3>Defender's Turn</h3>
+        <p>Budget: {{ defender_budget }}</p>
+
+        <form action="/defender" method="post">
+            <input type="hidden" name="role" value="defender">
+
+            <label for="locations">How many locations do you want to protect or turn off lights (1-8, press Enter to skip turn):</label>
+            <input type="number" id="locations" name="locations" min="1" max="8">
+            <br>
+
+            <label for="action">Choose your action (Firewall, Virus Protection, Intrusion Detection System, User Training, Turn Off Lights):</label>
+            <select id="action" name="action">
+                <option value="Firewall">Firewall</option>
+                <option value="Virus Protection">Virus Protection</option>
+                <option value="Intrusion Detection System">Intrusion Detection System</option>
+                <option value="User Training">User Training</option>
+                <option value="Turn Off Lights">Turn Off Lights</option>
+            </select>
+            <br>
+
+            <label for="district">Choose a district:</label>
+            <select id="district" name="district">
+                {% for district in cybercity.districts.keys() %}
+                    <option value="{{ district }}">{{ district }}</option>
+                {% endfor %}
+            </select>
+            <br>
+
+            <input type="submit" value="Submit">
+        </form>
+
+        <h3>After Turn</h3>
+        <p>Move: {{ action }} in {{ district }}</p>
+        <!-- Add code here to display the state of the cybercity after each turn -->
+
+    {% endif %}
+    
+    <h2>End of Game</h2>
+    <!-- Add code here for the end of the game section -->
+</body>
+</html>
