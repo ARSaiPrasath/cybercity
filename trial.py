@@ -162,16 +162,20 @@ from next import NextRound
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, x, y, grid, title):
+    def __init__(self, x, y, grid, title, counter):
         super().__init__()
         self.setGeometry(x, y, 960, 540)
         self.setWindowTitle(title)
+        self.attack_window = None
+        self.defend_window =  None
         self.active = True
+        self.counter = counter
         self.title = title
         self.cybercity = Cybercity()
         self.grid = grid
         self.budget = {"defender": 50000, "attacker": 50000}
         self.round_counter = 0
+
         self.protection_actions = {
             "Firewall": {"effect": 0.30, "probability": 0.7},
             "Virus Protection": {"effect": 0.15, "probability": 0.8},
@@ -195,9 +199,9 @@ class MainWindow(QMainWindow):
                 self.hacking_actions[district] = {"effect": 0, "probability": 1.0}
 
         # adding the condition for end game here     
-        self.round = NextRound()
-        self.end = self.round.get_num_rounds()
-        if self.round_counter >= 10:
+        # self.round = NextRound()
+        self.end = self.counter.get_num_rounds()
+        if self.end >= 10:
             output_text = self.centralWidget().findChild(QTextEdit, 'output_text')
             if output_text is None:
                 # Create QTextEdit widget if not found
@@ -208,20 +212,23 @@ class MainWindow(QMainWindow):
             output_text.append("\n--- End of Game ---")
             return
         if title == "attacker":
-            attack_window = AttackerWindow(self)
+            self.attack_window = AttackerWindow(self)
 
-            attack_window.create_widgets()
-            self.setCentralWidget(attack_window)
+            self.attack_window.create_widgets()
+            self.setCentralWidget(self.attack_window)
 
                 # self.setCentralWidget(attack_window)
         else:
-            defend_window = DefenderWindow(self)
-            defend_window.create_widgets()
-            self.setCentralWidget(defend_window)
+            self.defend_window = DefenderWindow(self)
+            self.defend_window.create_widgets()
+            self.setCentralWidget(self.defend_window)
 
 
     def round_switch(self):
-        num = self.round.next_round()
+        self.counter.next_round()
+        
+        num = self.counter.get_num_rounds()
+        print(num)
         if num >= 10:
             output_text = self.centralWidget().findChild(QTextEdit, 'output_text')
             if output_text is None:
@@ -232,7 +239,7 @@ class MainWindow(QMainWindow):
 
             output_text.append("\n--- End of Game ---")
             return
-        print(num)
+        # print(num)
         if num % 2 == 0 and self.title == "attacker":
             attack_window = AttackerWindow(self)
             attack_window.create_widgets()
@@ -344,11 +351,12 @@ class MainWindow(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    counter = NextRound()
     num_rows = 10
     num_cols = 10
-    game1 = MainWindow(50, 50, num_rows, "attacker")
+    game1 = MainWindow(50, 50, num_rows, "attacker", counter)
     game1.show()
-    game2 = MainWindow(700, 50, num_cols, "defender")
+    game2 = MainWindow(700, 50, num_cols, "defender", counter)
     game2.show()
     sys.exit(app.exec_())
 

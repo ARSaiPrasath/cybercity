@@ -94,4 +94,5 @@ class DefenderWindow(QWidget):
 
         self.defender_budget_label.setText(str(self.budget["defender"]))
         # self.parent().active = False
+        # self.parent().increase_round()
         self.parent().round_switch()

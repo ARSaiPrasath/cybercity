@@ -4,7 +4,7 @@
 class NextRound():
     def __init__(self):
         self.round_counter = 0
-        print(self.round_counter)
+        # print(self.round_counter)
 
     def get_num_rounds(self):
         return self.round_counter
@@ -31,7 +31,7 @@ class NextRound():
         # else:
         #     output_text.append("\nAfter turn:")
         #     output_text.append(self.cybercity.status())
-        return self.round_counter
+        # return self.round_counter
 
             
 
