@@ -93,6 +93,4 @@ class DefenderWindow(QWidget):
                     QMessageBox.warning(self, "Defense Failed", f"Defense {action} is not successful in District {district}.")
 
         self.defender_budget_label.setText(str(self.budget["defender"]))
-        # self.parent().active = False
-        # self.parent().increase_round()
         self.parent().round_switch()
