@@ -66,9 +66,11 @@ class AttackerWindow(QWidget):
             self.form_layout.addRow(district_label, district_combobox)
             self.form_layout.addRow(action_label, action_combobox)
     
-    def update_image(self, image_path):
-        pixmap = QPixmap(image_path)
-        self.image_label.setPixmap(pixmap)
+    def update_image(self):
+        if self.parent().title == "attacker":
+            image_path = './img/attacker.png'
+            pixmap = QPixmap(image_path)
+            self.image_label.setPixmap(pixmap)
 
     def submit_attacker_turn(self):
         n_locations = self.location_spinbox.value()

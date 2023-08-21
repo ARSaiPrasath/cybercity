@@ -13,8 +13,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setGeometry(x, y, 960, 540)
         self.setWindowTitle(title)
-        self.attack_window = None
-        self.defend_window =  None
+
         self.active = True
         self.counter = counter
         self.title = title
@@ -37,7 +36,8 @@ class MainWindow(QMainWindow):
             "Malware": {"effect": 0.20, "probability": 0.9},
             "Skip Turn": {"effect": 0, "probability": 1.0}
         }
-
+        self.attack_window = AttackerWindow(self)
+        self.defend_window =  DefenderWindow(self)
         # Adding 'Business' district to both dictionaries
         for district in self.cybercity.districts.keys():
             if district not in self.protection_actions:
@@ -59,12 +59,12 @@ class MainWindow(QMainWindow):
             output_text.append("\n--- End of Game ---")
             return
         if title == "attacker":
-            self.attack_window = AttackerWindow(self)
+            # self.attack_window = AttackerWindow(self)
 
-            self.attack_window.create_widgets()
+            self.attack_window.update_image()
             self.setCentralWidget(self.attack_window)
         else:
-            self.defend_window = DefenderWindow(self)
+            # self.defend_window = DefenderWindow(self)
             self.defend_window.create_widgets()
             self.setCentralWidget(self.defend_window)
 
@@ -85,23 +85,33 @@ class MainWindow(QMainWindow):
             output_text.append("\n--- End of Game ---")
             return
         # print(num)
-        if num % 2 == 0 and self.title == "attacker":
-            attack_window = AttackerWindow(self)
-            attack_window.create_widgets()
-            self.setCentralWidget(attack_window)
-        elif num % 2 ==0 and self.title != "attacker":
-            pass
-        elif num%2 != 0 and self.title == "defender":
-            defend_window = DefenderWindow(self)
-            defend_window.create_widgets()
-            self.setCentralWidget(defend_window)
-        else:
-            pass
+        # if num % 2 == 0 and self.title == "attacker":
+        #     # attack_window = AttackerWindow(self)
+        #     print("even attacker")
+        #     self.attack_window.create_widgets()
+        #     self.setCentralWidget(self.attack_window)
+        # elif num % 2 ==0 and self.title != "attacker":
+        #     self.attack_window.update_image()
+            
+        #     print("even defender")
+        #     self.setCentralWidget(self.attack_window)
+        # elif(num%2 != 0 and self.title == "defender"):
+        #     # defend_window = DefenderWindow(self)
+        #     # defend_window.create_widgets()
+        #     print("odd defender")
+        #     self.attack_window.update_image()
+
+            
+        #     self.setCentralWidget(self.defend_window)
+        #     # self.setCentralWidget(self.attack_window)
+        # else:
+        #     pass
+        self.switch_central_widget(num)
         if hasattr(self, 'defender_window'):
             self.defender_window.defender_budget_label.setText(str(self.budget["defender"]))
         if hasattr(self, 'attacker_window'):
             self.attacker_window.attacker_budget_label.setText(str(self.budget["attacker"]))
-        # self.counter.light_switch()
+
         output_text = self.centralWidget().findChild(QTextEdit, 'output_text')
         if output_text is None:
             # Create QTextEdit widget if not found
@@ -115,7 +125,27 @@ class MainWindow(QMainWindow):
             output_text.append("\nAfter turn:")
             output_text.append(self.cybercity.status())
 
-
+    def switch_central_widget(self, num):
+        
+        if num%2==0:
+            # self.attack_window = AttackerWindow(self)
+            
+            
+            # self.attack_window.create_widgets()
+            # self.defend_window = DefenderWindow(self)
+            # self.defend_window.update_image()
+            self.attack_window.create_widgets()
+            self.setCentralWidget(self.attack_window)
+            # self.setCentralWidget(self.defend_window)
+        else:
+            # self.attack_window = AttackerWindow(self)
+            
+            # self.setCentralWidget(self.attack_window)
+            # self.defend_window = DefenderWindow(self)
+            
+            self.setCentralWidget(self.defend_window)
+            # self.defend_window.create_widgets()
+            # self.attack_window.update_image()
     def switch_turns(self):
         self.active = not self.active
         if self.active:

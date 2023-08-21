@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QSpinBox, QComboBox, QTextEdit, QFormLayout, QMessageBox
 from cybercity import Cybercity
+from PyQt5.QtGui import QPixmap
 
 
 class DefenderWindow(QWidget):
@@ -12,6 +13,8 @@ class DefenderWindow(QWidget):
         self.budget = parent.budget
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
+        self.image_label = QLabel(self)
+        self.layout.addWidget(self.image_label)
         # self.create_widgets()
 
     def create_widgets(self):
@@ -60,6 +63,13 @@ class DefenderWindow(QWidget):
             action_combobox.addItems(["Firewall", "Virus Protection", "Intrusion Detection System", "User Training", "Turn Off Lights"])
             self.form_layout.addRow(district_label, district_combobox)
             self.form_layout.addRow(action_label, action_combobox)
+    def update_image(self):
+        if self.parent().title == " defender":
+            print("def imag")
+            image_path = './img/defender.png'
+            pixmap = QPixmap(image_path)
+            self.image_label.setPixmap(pixmap)
+
 
     def submit_defender_turn(self):
         n_locations = self.location_spinbox.value()
