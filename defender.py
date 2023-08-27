@@ -63,8 +63,10 @@ class DefenderWindow(QWidget):
             action_combobox.addItems(["Firewall", "Virus Protection", "Intrusion Detection System", "User Training", "Turn Off Lights"])
             self.form_layout.addRow(district_label, district_combobox)
             self.form_layout.addRow(action_label, action_combobox)
+
+            
     def update_image(self):
-        if self.parent().title == " defender":
+        if self.parent().title == "defender":
             print("def imag")
             image_path = './img/attacker.png'
             pixmap = QPixmap(image_path)

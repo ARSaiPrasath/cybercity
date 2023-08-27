@@ -85,14 +85,14 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.defend_window)
 
     def set_defimage(self):
-        self.attack_window = AttackerWindow(self)
-        self.attack_window.update_image()
-        self.setCentralWidget(self.attack_window)
-
-    def set_atimage(self):
         self.defend_window = DefenderWindow(self)
         self.defend_window.update_image()
         self.setCentralWidget(self.defend_window)
+
+    def set_atimage(self):
+        self.attack_window = AttackerWindow(self)
+        self.attack_window.update_image()
+        self.setCentralWidget(self.attack_window)
         
     def round_switch(self):
         self.counter.next_round()
@@ -178,8 +178,8 @@ class Main():
 
         if title == "defender":
             # self.defender.defend_window = DefenderWindow(self)
-            self.defender.defend_window.update_image()
-            self.defender.setCentralWidget(self.defender.defend_window)
+            # self.defender.defend_window.update_image()
+            # self.defender.setCentralWidget(self.defender.defend_window)
             self.defender.set_defimage()
             self.attacker.set_attack()
 
@@ -191,10 +191,11 @@ class Main():
             self.defender.set_defimage()
         if title == "defender":
             # self.defender.defend_window = DefenderWindow(self)
-            self.defender.defend_window.create_widgets()
-            self.defender.setCentralWidget(self.defender.defend_window)      
+            # self.defender.defend_window.create_widgets()
+            # self.defender.setCentralWidget(self.defender.defend_window)      
             print("attacker image") 
-            self.attacker.set_atimage()         
+            self.attacker.set_atimage()     
+            self.defender.set_defend()    
     # def toggle_screen(self, title):
 
 
