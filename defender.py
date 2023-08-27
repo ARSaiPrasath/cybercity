@@ -66,7 +66,7 @@ class DefenderWindow(QWidget):
     def update_image(self):
         if self.parent().title == " defender":
             print("def imag")
-            image_path = './img/defender.png'
+            image_path = './img/attacker.png'
             pixmap = QPixmap(image_path)
             self.image_label.setPixmap(pixmap)
 

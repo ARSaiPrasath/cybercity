@@ -1,4 +1,3 @@
-
 class NextRound():
     def __init__(self):
         self.round_counter = 0

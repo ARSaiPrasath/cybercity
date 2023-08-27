@@ -68,7 +68,8 @@ class AttackerWindow(QWidget):
     
     def update_image(self):
         if self.parent().title == "attacker":
-            image_path = './img/attacker.png'
+            # print("at imag")
+            image_path = './img/defender.png'
             pixmap = QPixmap(image_path)
             self.image_label.setPixmap(pixmap)
 

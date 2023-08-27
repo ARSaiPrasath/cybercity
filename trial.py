@@ -6,6 +6,7 @@ from attacker import AttackerWindow
 from defender import DefenderWindow
 from cybercity import Cybercity
 from next import NextRound
+# from screen_move import screenMove
 
 
 class MainWindow(QMainWindow):
@@ -128,21 +129,11 @@ class MainWindow(QMainWindow):
     def switch_central_widget(self, num):
         
         if num%2==0:
-            # self.attack_window = AttackerWindow(self)
-            
-            
-            # self.attack_window.create_widgets()
-            # self.defend_window = DefenderWindow(self)
-            # self.defend_window.update_image()
             self.attack_window.create_widgets()
             self.setCentralWidget(self.attack_window)
             # self.setCentralWidget(self.defend_window)
         else:
-            # self.attack_window = AttackerWindow(self)
-            
-            # self.setCentralWidget(self.attack_window)
-            # self.defend_window = DefenderWindow(self)
-            
+
             self.setCentralWidget(self.defend_window)
             # self.defend_window.create_widgets()
             # self.attack_window.update_image()
@@ -155,10 +146,23 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.current_view)
 
 
+# ================================================newlyaddded=-==============================
+class screenMove():
+    def __init__(self, attacker, defender):
+        self.attacker = attacker
+        self.defender = defender
+
+    def show_attacker(self):
+        self.attacker.create_widgets()
+        self.setCentralWidget(self.attacker)
+
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     counter = NextRound()
     cybercity = Cybercity()
+    # move = screenMove()
     num_rows = 10
     num_cols = 10
     game1 = MainWindow(50, 50, num_rows, "attacker", counter, cybercity)
